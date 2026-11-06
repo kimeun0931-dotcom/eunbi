@@ -142,3 +142,6 @@ section{scroll-margin-top:64px}
 #chart-p{height:330px}
 #chart-v{height:130px;border-top:1px solid var(--line)}
 @media(max-width:600px){#chart-p{height:290px}#chart-v{height:120px}}
+
+.issues li.empty{padding-left:0;font-weight:500;color:var(--muted)}
+.issues li.empty::before{display:none}

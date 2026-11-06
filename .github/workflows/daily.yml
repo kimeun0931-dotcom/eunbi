@@ -11,17 +11,18 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install yfinance requests lxml anthropic
-      - name: 시세 수집
+      - name: 시세·차트 수집 (무료)
         run: python scripts/update_data.py
-      - name: 이슈·이유 작성 (Claude + 웹 검색)
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: 이슈·이유 작성 (API 키가 있을 때만)
+        if: env.ANTHROPIC_API_KEY != ''
         run: python scripts/generate_editorial.py
       - name: 변경사항 커밋
         run: |

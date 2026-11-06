@@ -52,11 +52,14 @@
 
   /* ---------- 이슈 / 용어 ---------- */
   for (const m of ["kr", "us"]) {
-    $("issues-" + m).innerHTML = (data.issues[m] || [])
-      .map((i) => `<li>${esc(i.text)}${i.detail ? `<span class="more">${esc(i.detail)}</span>` : ""}</li>`)
-      .join("");
+    const list = (data.issues || {})[m] || [];
+    $("issues-" + m).innerHTML = list.length
+      ? list.map((i) => `<li>${esc(i.text)}${i.detail ? `<span class="more">${esc(i.detail)}</span>` : ""}</li>`).join("")
+      : `<li class="empty">오늘의 이슈 요약은 아직 작성 전이에요. 아래 주식 시세는 먼저 업데이트됐어요.</li>`;
   }
-  if (data.term) $("term").innerHTML = `<b>${esc(data.term.word)}</b><p>${esc(data.term.easy)}</p>`;
+  $("term").innerHTML = data.term
+    ? `<b>${esc(data.term.word)}</b><p>${esc(data.term.easy)}</p>`
+    : `<b>작성 전이에요</b><p>오늘의 용어는 이슈 요약과 함께 올라와요.</p>`;
 
   /* ---------- 급등/급락 ---------- */
   const all = {};
